@@ -16,48 +16,47 @@ function createObject(factor, depth) {
 function timeIt(doThis, attempts) {
   var start = new Date();
 
+  var withoutPrintingTotalTime = 0;
   for(var x = 0; x < attempts; x++) {
-    doThis();
+    var thisStart = new Date();
+    var withoutPrintingTime = doThis();
+    // We want to add up the time differences
+    withoutPrintingTotalTime += (withoutPrintingTime - thisStart);
   }
-  return (new Date() - start) / attempts;
+  var end = new Date();
+  return {
+      action: withoutPrintingTotalTime / attempts,
+      total: (end - start) / attempts
+  }
 }
-function writeItAll(factor, depth, times) {
-  return writeIt(factor, depth) +
-    'Stringified: ' + times.stringifiedTime + ' ms<br />' +
-    'To JSON: ' + times.jsonedTime + ' ms<br />'
-}
-function writeIt(factor, depth) {
+
+function writeOutFactorAndDepth(factor, depth) {
   return 'objects with between ' +  Math.pow(10, factor) +' and ' + Math.pow(10, factor + 1) + ' properties, and a depth of ' + depth;
 }
 
 function testIt(objectToTest, attempts) {
   // First stringify
-  var circular = false;
+  var whichStringify = 'stringify';
   try {
     var stringified = JSON.stringify(objectToTest);
   } catch (err) {
-    circular = true;
+    whichStringify = 'stringifyOnce';
     stringified = JSON.stringifyOnce(objectToTest);
   }
-  if (circular) {
-    var stringifiedTime = timeIt(function () {
-      var stringified = JSON.stringifyOnce(objectToTest);
-      console.log(stringified)
-    }, attempts);
-    var jsonedTime = timeIt(function () {
-      var jsoned = JSON.parse(stringified);
-      console.log(jsoned);
-    }, attempts);
-  } else {
-    stringifiedTime = timeIt(function () {
-      var stringified = JSON.stringify(objectToTest);
-      console.log(stringified)
-    }, attempts);
-    jsonedTime = timeIt(function () {
-      var jsoned = JSON.parse(stringified);
-      console.log(jsoned);
-    }, attempts);
-  }
+
+  var stringifiedTime = timeIt(function () {
+    var stringified = JSON[whichStringify](objectToTest);
+    var time = new Date();
+    console.log(stringified);
+    return time;
+  }, attempts);
+
+  var jsonedTime = timeIt(function () {
+    var jsoned = JSON.parse(stringified);
+    var time = new Date();
+    console.log(jsoned);
+    return time;
+  }, attempts);
 
   return {
     stringifiedTime: stringifiedTime,
@@ -69,5 +68,5 @@ function testIt(objectToTest, attempts) {
 module.exports = {
   createObject: createObject,
   testIt: testIt,
-  writeIt: writeIt
+  writeIt: writeOutFactorAndDepth
 };

@@ -34,8 +34,10 @@ router.get('/diy', function(req, res, next) {
   res.render('index', {
     title: 'Express',
     message: message,
-    stringifiedTime: times.stringifiedTime,
-    jsonedTime: times.jsonedTime
+    stringifiedTime: times.stringifiedTime.action,
+    stringifiedTimeTotal: times.stringifiedTime.total,
+    jsonedTime: times.jsonedTime.action,
+    jsonedTimeTotal: times.jsonedTime.total
   });
 });
 
@@ -51,8 +53,10 @@ router.get('/', function(req, res, next) {
   res.render('index', {
     title: 'Express',
     message: message,
-    stringifiedTime: times.stringifiedTime,
-    jsonedTime: times.jsonedTime
+    stringifiedTime: times.stringifiedTime.action,
+    stringifiedTimeTotal: times.stringifiedTime.total,
+    jsonedTime: times.jsonedTime.action,
+    jsonedTimeTotal: times.jsonedTime.total
   });
 });
 
@@ -63,8 +67,10 @@ router.get('/req', function(req, res, next) {
   res.render('index', {
     title: 'Express',
     message: 'Parsing Req (with ' + Object.keys(req).length + ' properties)',
-    stringifiedTime: times.stringifiedTime,
-    jsonedTime: times.jsonedTime
+    stringifiedTime: times.stringifiedTime.action,
+    stringifiedTimeTotal: times.stringifiedTime.total,
+    jsonedTime: times.jsonedTime.action,
+    jsonedTimeTotal: times.jsonedTime.total
   });
 });
 
