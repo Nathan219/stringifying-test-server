@@ -19,7 +19,7 @@ function createObject(factor, depth, randomProperties) {
   }
   factor = makeBetweenMaxAndMin(factor);
   var newObject = {};
-  var min = 1; //Math.pow(10, factor - 1);
+  var min = Math.pow(10, factor - 1);
   var max = Math.pow(10, factor);
   var amount = (randomProperties) ? Math.random() * (max - min) + min : max;
   for(var x = 0; x < amount; x++) {
