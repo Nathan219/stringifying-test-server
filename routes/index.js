@@ -14,14 +14,14 @@ router.get('/hard', function(req, res, next) {
     depth = 0;
     for(; depth < 4; depth) {
       var newObject = utils.createObject(factor, depth);
-      times = utils.testIt(newObject, attempts);
+      times = utils.runTests(newObject, attempts);
     }
   } while (times.jsonedTime < goalTime && times.jsonedTime < goalTime);
   var message = utils.writeIt(factor, depth, times);
-  res.render('index', {
+  res.render('index', utils.extractTimes({
     title: 'Express',
     message: message
-  });
+  }, times));
 });
 
 router.get('/diy', function(req, res, next) {
@@ -29,16 +29,12 @@ router.get('/diy', function(req, res, next) {
   var depth =  parseInt(req.query.depth) || 2;
   var attempts = 10;
   var newObject = utils.createObject(factor, depth);
-  var times = utils.testIt(newObject, attempts);
+  var times = utils.runTests(newObject, attempts);
   var message = utils.writeIt(factor, depth, times);
-  res.render('index', {
+  res.render('index', utils.extractTimes({
     title: 'Express',
-    message: message,
-    stringifiedTime: times.stringifiedTime.action,
-    stringifiedTimeTotal: times.stringifiedTime.total,
-    jsonedTime: times.jsonedTime.action,
-    jsonedTimeTotal: times.jsonedTime.total
-  });
+    message: message
+  }, times));
 });
 
 router.get('/', function(req, res, next) {
@@ -48,30 +44,22 @@ router.get('/', function(req, res, next) {
   var goalTime = 1000;
   var times = {};
   var newObject = utils.createObject(factor, depth);
-  times = utils.testIt(newObject, attempts);
+  times = utils.runTests(newObject, attempts);
   var message = utils.writeIt(factor, depth, times);
-  res.render('index', {
+  res.render('index', utils.extractTimes({
     title: 'Express',
-    message: message,
-    stringifiedTime: times.stringifiedTime.action,
-    stringifiedTimeTotal: times.stringifiedTime.total,
-    jsonedTime: times.jsonedTime.action,
-    jsonedTimeTotal: times.jsonedTime.total
-  });
+    message: message
+  }, times));
 });
 
 router.get('/req', function(req, res, next) {
   var attempts = 50;
   console.log('');
-  var times = utils.testIt(req, attempts);
-  res.render('index', {
+  var times = utils.runTests(req, attempts);
+  res.render('index', utils.extractTimes({
     title: 'Express',
-    message: 'Parsing Req (with ' + Object.keys(req).length + ' properties)',
-    stringifiedTime: times.stringifiedTime.action,
-    stringifiedTimeTotal: times.stringifiedTime.total,
-    jsonedTime: times.jsonedTime.action,
-    jsonedTimeTotal: times.jsonedTime.total
-  });
+    message: message
+  }, times));
 });
 
 module.exports = router;

@@ -3,7 +3,9 @@ extends layout
 block content
   h1= title
   p #{message}
-  p Stringified: #{stringifiedTime} ms
-  p Stringified including printing to console: #{stringifiedTimeTotal} ms
-  p Parsing: #{jsonedTime} ms
-  p Parsing including printing to console: #{jsonedTimeTotal} ms
+  p Stringified:     #{stringified_action} ms
+  p Printing Stringified to console:  #{stringified_console} ms
+  p Printing Stringified to log file: #{stringified_log} ms
+  p JSON-Parsing:         #{jsoned_action} ms
+  p Printing JSON-Parsed to console:  #{jsoned_console} ms
+  p Printing JSON-Parsed to log file: #{jsoned_log} ms
