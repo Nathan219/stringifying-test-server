@@ -11,10 +11,11 @@ router.get('/diy', function(req, res) {
 
   depth = utils.minMaxDepth(depth);
   factor = utils.minMaxFactor(factor);
+  var attempts = 10;
   if (factor > 2) {
     randomProperties = true;
+    attempts = 2;
   }
-  var attempts = 10;
   var newObject = utils.createObject(factor, depth, randomProperties);
   var times = utils.runTests(newObject, attempts);
   var message = utils.writeOutFactorAndDepth(factor, depth, randomProperties);

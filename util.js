@@ -25,13 +25,15 @@ function createObject(factor, depth, randomProperties) {
   if (!depth) {
     return randomstring.generate()
   }
-  factor = minMaxFactor(factor);
   var newObject = {};
-  var min = Math.pow(10, factor - 1);
-  var max = Math.pow(10, factor);
-  var amount = (randomProperties) ? Math.random() * (max - min) + min : max;
+  var amount = 1;
+  if (factor) {
+    var min = Math.pow(10, factor - 1);
+    var max = Math.pow(10, factor);
+    amount = (randomProperties) ? Math.random() * (max - min) + min : max;
+  }
   for(var x = 0; x < amount; x++) {
-    newObject[randomstring.generate()] = createObject(factor - 1, depth - 1)
+    newObject[randomstring.generate()] = createObject(factor - 1, depth - 1, randomProperties)
   }
   return newObject
 }
