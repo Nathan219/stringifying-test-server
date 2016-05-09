@@ -21,7 +21,6 @@ function minMaxDepth(value) {
  * @returns {{Object}} Hopefully what you asked for
  */
 function createObject(factor, depth, randomProperties) {
-  console.log('Creating at Depth ', depth);
   if (!depth) {
     return randomstring.generate()
   }
